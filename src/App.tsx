@@ -7,8 +7,10 @@ interface Repo {
 
 function App() {
   const [repos, setRepos] = useState<Repo[]>([]);
-  const [filteredRepos, setFilteredRepos] = useState<Repo[]>([]);
+  // const [filteredRepos, setFilteredRepos] = useState<Repo[]>([]);
   const [search, setSearch] = useState('');
+
+  console.log('Renderizou')
 
   useEffect(() => {
     fetch('https://api.github.com/users/raphaacosta/repos')
@@ -16,9 +18,13 @@ function App() {
       .then(data => setRepos(data))
   }, []);
 
-  useEffect(() => {
-    setFilteredRepos(repos.filter(repo => repo.name.includes(search)));
-  }, [search])
+  const filteredRepos = search.length > 0
+    ? repos.filter(repo => repo.name.includes(search))
+    : [];
+
+  // useEffect(() => {
+  //   setFilteredRepos(repos.filter(repo => repo.name.includes(search)));
+  // }, [search])
 
   return (
     <div>
